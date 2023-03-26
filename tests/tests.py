@@ -37,12 +37,8 @@ class TestObjectualize:
         person2 = Person("Jane", 25)
         company = Company("ABC Inc.", [person1, person2])
 
-        # expected_output = "{name <str> : ABC Inc., employees <list> : {\n\t{name <str> : John, age <int> : 30}\n\t{name <str> : Jane, age <int> : 25}\n}}"
         expected_output = "{\n\tname <str> : ABC Inc.,\n\temployees <list> : [\n\t\t{\n\t\t\tname <str> : John,\n\t\t\tage <int> : 30\n\t\t},\n\t\t{\n\t\t\tname <str> : Jane,\n\t\t\tage <int> : 25\n\t\t}\n\t]\n}"
         result = objectualize(company)
-        print("ENCERRONA")
-        print(repr(result))
-        print("ENCERRONA")
         assert result == expected_output
 
     # Tests that the function can handle circular references in objects. tags: [edge case]
