@@ -1,6 +1,6 @@
 import pytest
 
-from Objectualizer import objectualize
+from src.Objectualizer import raw_objectualize
 
 """
 Code Analysis:
@@ -19,7 +19,7 @@ class TestObjectualize:
 
     # Tests that the function returns none when given an empty object. tags: [happy path]
     def test_empty_object(self):
-        assert objectualize({}) == "{\n\t\n}"
+        assert raw_objectualize({}) == "{\n\t\n}"
 
     # Tests that the function can handle nested attributes. tags: [happy path]
     def test_nested_attributes(self):
@@ -38,7 +38,7 @@ class TestObjectualize:
         company = Company("ABC Inc.", [person1, person2])
 
         expected_output = "{\n\tname <str> : ABC Inc.,\n\temployees <list> : [\n\t\t{\n\t\t\tname <str> : John,\n\t\t\tage <int> : 30\n\t\t},\n\t\t{\n\t\t\tname <str> : Jane,\n\t\t\tage <int> : 25\n\t\t}\n\t]\n}"
-        result = objectualize(company)
+        result = raw_objectualize(company)
         assert result == expected_output
 
     # Tests that the function can handle circular references in objects. tags: [edge case]
@@ -57,7 +57,7 @@ class TestObjectualize:
         node3.next = node1
 
         expected_output = "{\n\tvalue <int> : 1,\n\tnext <Node> : {\n\t\tvalue <int> : 2,\n\t\tnext <Node> : {\n\t\t\tvalue <int> : 3,\n\t\t\tnext <Node> : {\n\t\t\t\t...circular reference\n\t\t\t}\n\t\t}\n\t}\n}"
-        assert objectualize(node1) == expected_output
+        assert raw_objectualize(node1) == expected_output
 
     # Tests that the function can handle unsupported attributes (e.g. functions) in objects. tags: [edge case]
     def test_unsupported_attributes(self):
@@ -69,7 +69,7 @@ class TestObjectualize:
         person = Person("John")
 
         expected_output = "{\n\tname <str> : John,\n\tsay_hello <function> : Unsupported Attribute Value\n}"
-        assert objectualize(person) == expected_output
+        assert raw_objectualize(person) == expected_output
 
     # Tests that the function can handle non-ascii characters in objects. tags: [edge case]
     def test_non_ascii_characters(self):
@@ -80,7 +80,7 @@ class TestObjectualize:
         person = Person("Jørgen")
 
         expected_output = "{\n\tname <str> : Jørgen\n}"
-        assert objectualize(person) == expected_output
+        assert raw_objectualize(person) == expected_output
 
     # Tests that the function can handle unhandled types of objects or classes. tags: [edge case]
     def test_unhandled_types(self):
@@ -89,4 +89,4 @@ class TestObjectualize:
 
         custom_obj = CustomType()
 
-        assert objectualize(custom_obj) is not None
+        assert raw_objectualize(custom_obj) is not None

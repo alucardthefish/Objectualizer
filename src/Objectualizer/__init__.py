@@ -1,10 +1,9 @@
 
 
-def objectualize(obj) -> str:
+def raw_objectualize(obj) -> str:
     """
-    Return str and prints properties of a given object or class in
-    a vertical way. More human readable display of an object in
-    a similar way as dict/json format.
+    Return raw str of the properties of a given object or class
+    with scape characters such as ending lines and tabs.
     """
     import inspect
 
@@ -70,5 +69,14 @@ def objectualize(obj) -> str:
             res += char
         return res
     txt_output = revolk(_objectualize(obj))
-    print(txt_output)
+
     return txt_output
+
+
+def objectualize(obj) -> None:
+    """
+    Print in console the properties of a given object or class in
+    a vertical way. More human readable displaying of an object in
+    a similar way as dict/json format.
+    """
+    print(raw_objectualize(obj))
